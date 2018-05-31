@@ -15,6 +15,7 @@ from numpy.random import *
 from setting import *
 from Function import *
 import pickle
+import sentencepiece as spm
 
 
 model = word2vec.Word2Vec.load("./model_weight/w2v_jawiki_alltag.model")

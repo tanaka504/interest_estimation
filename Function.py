@@ -329,8 +329,8 @@ def data_modify(tweet, labels):
     return crf_label
 
 def main():
-    with open('./train_data/train_data_o10/validation_data', 'r') as f:
-        with open('./train_data/train_data_pos/validation_data', 'w') as out_f:
+    with open('./train_data/train_data_o10/real_test_data', 'r') as f:
+        with open('./train_data/train_data_pos/real_test_data', 'w') as out_f:
             data = f.read().split('\n')
             #data.remove('')
             for line in data:
@@ -346,4 +346,4 @@ def train_spm():
     spm.SentencePieceTrainer.Train('--input=data/w2v_data.txt --model_prefix=m --vocab_size=120000')
 
 if __name__ == '__main__':
-    # train_spm()
+    main()

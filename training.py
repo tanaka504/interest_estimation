@@ -174,13 +174,13 @@ if __name__ == '__main__':
 
     train_file = './train_data/train_data_o10/train_data'
     valid_file = './train_data/train_data_o10/validation_data'
-    seed = 5
+    seed = 4
 
 
     #main('./model_weight/LSTM&NN{}_related_workmodel_weights.h5'.format(seed), train_file, valid_file, mode=3, embed=6, relating=False)
     #main('./model_weight/CNN&NN{}_alltagmodel_weights.h5'.format(seed), train_file, valid_file, mode=4, embed=10, relating=True)
-    #main('./model_weight/LSTM&NN{}_alltagmodel_weights.h5'.format(seed), train_file, valid_file, mode=3, embed=10, relating=True)
-    main('./model_weight/LSTM_Char{}_related_workmodel_weights.h5'.format(seed),train_file,valid_file,mode=6,embed=2,relating=False)
+    main('./model_weight/LSTM&NN{}_alltagmodel_weights.h5'.format(seed), train_file, valid_file, mode=3, embed=10, relating=False)
+    #main('./model_weight/LSTM_Char{}_related_workmodel_weights.h5'.format(seed),train_file,valid_file,mode=6,embed=2,relating=False)
 
 
     #main('./model_weight/LSTM&NN_tagtrainmodel_weights.h5', train_file, mode=3, embed=3, relating=False)

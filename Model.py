@@ -22,7 +22,6 @@ from tensorflow import expand_dims
 import tensorflow as tf
 from setting import *
 
-
 wv_model = word2vec.Word2Vec.load("./model_weight/w2v_jawiki_alltag.model")
 
 def sigmoid(z):

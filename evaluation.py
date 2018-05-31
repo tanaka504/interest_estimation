@@ -266,7 +266,7 @@ def predicting(filename,nw_test = 0,mode=1,embed=5,relating = True,p=20,seed=1):
 
 def main(nw=1,mode=1,embed=5,relating=True,p=20,seed=1):
     valname = './train_data/train_data_o10/validation_data'
-    testname = './train_data/train_data_o10/train_data'
+    testname = './train_data/train_data_o10/test_data'
 
     # validation
     true_y, score_y, title,list = predicting(valname,nw_test=0,mode=mode,embed=embed,relating=relating,seed=seed)
@@ -289,12 +289,12 @@ def main(nw=1,mode=1,embed=5,relating=True,p=20,seed=1):
         else:
             predicts0.append(0.0)
 
-    with open('./example/exist_example_all.txt', 'w') as f:
-        score2tag = {1.0:'POS',
-                     0.0:'NEG'}
-        ex_list = [(target[1][1], ans, label) for (target, ans, label) in zip(list, predicts0, true_y)]
-        for (word, pred, true) in ex_list:
-            f.write('{} | {} | {} \n'.format(word, score2tag[pred], score2tag[true]))
+    # with open('./example/exist_example_all.txt', 'w') as f:
+    #     score2tag = {1.0:'POS',
+    #                  0.0:'NEG'}
+    #     ex_list = [(target[1][1], ans, label) for (target, ans, label) in zip(list, predicts0, true_y)]
+    #     for (word, pred, true) in ex_list:
+    #         f.write('{} | {} | {} \n'.format(word, score2tag[pred], score2tag[true]))
 
     p1 = precision_score(true_y,predicts0,pos_label=1)
     r1 = recall_score(true_y,predicts0,pos_label=1)
@@ -321,12 +321,12 @@ def main(nw=1,mode=1,embed=5,relating=True,p=20,seed=1):
         else:
             predicts1.append(0.0)
     #print([(target[1][1], label, ans) for (target, label, ans) in zip(list, true_y, predicts1)])
-    with open('./example/exist_example_unk.txt', 'w') as f:
-        score2tag = {1.0:'POS',
-                     0.0:'NEG'}
-        ex_list = [(target[1][1], ans, label) for (target, ans, label) in zip(list, predicts1, true_y)]
-        for (word, pred, true) in ex_list:
-            f.write('{} | {} | {} \n'.format(word, score2tag[pred], score2tag[true]))
+    # with open('./example/exist_example_unk.txt', 'w') as f:
+    #     score2tag = {1.0:'POS',
+    #                  0.0:'NEG'}
+    #     ex_list = [(target[1][1], ans, label) for (target, ans, label) in zip(list, predicts1, true_y)]
+    #     for (word, pred, true) in ex_list:
+    #         f.write('{} | {} | {} \n'.format(word, score2tag[pred], score2tag[true]))
 
     p2 = precision_score(true_y,predicts1,pos_label=1)
     r2 = recall_score(true_y,predicts1,pos_label=1)
@@ -339,7 +339,7 @@ def main(nw=1,mode=1,embed=5,relating=True,p=20,seed=1):
     print('accuracy:',a2)
 
     if p != 100:
-        true_y, score_y, title,list = predicting(testname,nw_test=2,mode=mode,embed=embed,relating=relating,p=p,seed=seed)
+        true_y, score_y, title, list = predicting(testname,nw_test=2,mode=mode,embed=embed,relating=relating,p=p,seed=seed)
         print('known word CANDIDATE:', len(true_y))
         print('num of 1:', len([a for a in true_y if a == 1]))
         #print(title,'nonw')
@@ -379,8 +379,12 @@ def main(nw=1,mode=1,embed=5,relating=True,p=20,seed=1):
         #print([(k, v) for k, v in counter10.most_common()])
         '''
 
-
-
+        # with open('./example/exist_example_known.txt', 'w') as f:
+        #     score2tag = {1.0: 'POS',
+        #                  0.0: 'NEG'}
+        #     ex_list = [(target[1][1], ans, label) for (target, ans, label) in zip(list, predicts2, true_y)]
+        #     for (word, pred, true) in ex_list:
+        #         f.write('{} | {} | {} \n'.format(word, score2tag[pred], score2tag[true]))
 
         p3 = precision_score(true_y,predicts2,pos_label=1)
         r3 = recall_score(true_y,predicts2,pos_label=1)
@@ -500,20 +504,20 @@ if __name__ == '__main__':
     ## mode >> 1:CNNCO 2:CNN 3:LSTM&NN 4:CNN&NN                                                ##
     ## embed >> 1:tag 2:tag(no target) 3:tagtrain 4:alltag 5:Position Featuring 6:related_work ##
     #############################################################################################
-    seed = 5
+    seed = 1
     nw_percent = 20
 
     #for nw_percent in range(20,70,10):
-    '''
+
     print('proposal LSTM')
-    result1, result2, result3 = main(nw=0, mode=4, embed=10, relating=True, p=nw_percent, seed=seed)
+    result1, result2, result3 = main(nw=0, mode=3, embed=10, relating=False, p=nw_percent, seed=seed)
     table = pd.DataFrame([[result1[0], result1[1], result1[2]],
                           [result2[0], result2[1], result2[2]],
                           [result3[0], result3[1], result3[2]]],
                          index=['all words', 'unknown words', 'known words'],
                          columns=['Precision', 'Recall', 'F-measure'])
     table.to_csv('./result/alltaglstm1_{}_{}.csv'.format(seed, nw_percent), index=False)
-    
+    '''
 
     # All tag replace
     print('proposal')
@@ -536,11 +540,11 @@ if __name__ == '__main__':
                        index=['all words', 'unknown words', 'known words'],
                        columns=['Precision', 'Recall', 'F-measure'])
     print(exs)
-    #exs.to_csv('./result/exist1_{}_{}.csv'.format(seed, nw_percent), index=False)
+    exs.to_csv('./result/real_exist1_{}_{}.csv'.format(seed, nw_percent), index=False)
 
     #pprint([ (proposal[0],proposal[2],exist[2],proposal[1]) for proposal,exist in zip(list1,list2) if proposal[1] == proposal[2] and exist[1] != exist[2]])
-    '''
 
+    
     result1, result2, result3 = main(nw=0, mode=6, embed=13, relating=False, p=nw_percent, seed=seed)
     table = pd.DataFrame([[result1[0], result1[1], result1[2]],
                         [result2[0], result2[1], result2[2]],
@@ -548,7 +552,7 @@ if __name__ == '__main__':
                        index=['all words', 'unknown words', 'known words'],
                        columns=['Precision', 'Recall', 'F-measure'])
     table.to_csv('./result/exist_char1_{}_{}.csv'.format(seed, nw_percent), index=False)
-    '''
+    
     # Tag Model
     print('tag')
     result1, result2, result3 = main(nw=0, mode=4, embed=3, relating=False, p=nw_percent, seed=seed)
